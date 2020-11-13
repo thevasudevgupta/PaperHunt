@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+    postgres:
+        image: postgres:latest
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+
+    webserver:
+        image: puckel/docker-airflow:latest
+        restart: always
+        depends_on:
+            - postgres
+        environment:
+            - LOAD_EX=n # incase you want to load examples, keep it to `y`
+            - EXECUTOR=Local # single machine use local executer only
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+        volumes:
+            - ./dags:/usr/local/airflow/dags
+            - ./logs:/usr/local/airflow/logs
+            - /Users/vasudevgupta/.wdm/drivers/chromedriver/mac64/83.0.4103.39/chromedriver:/usr/local/chromedriver
+        ports:
+            - "8080:8080"
+        command: webserver
+        healthcheck:
+            test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+            interval: 30s
+            timeout: 30s
+            retries: 3
