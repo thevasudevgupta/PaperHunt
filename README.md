@@ -5,8 +5,8 @@ Research in deep learning is progressing very rapidly. Its very hard to decide w
 ## Setting Up
 
 ```
-git clone https://github.com/VasudevGupta7/paper-hunt.git
-cd paper-hunt
+git clone https://github.com/VasudevGupta7/paperhunt.git
+cd paperhunt
 source entrypoint.sh
 
 # ready to use paper hunt
