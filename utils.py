@@ -7,6 +7,7 @@ import re
 import pickle
 
 import webbrowser
+from tqdm import tqdm, trange
 
 class Fetcher(object):
     
@@ -28,21 +29,21 @@ class Fetcher(object):
 
     def dumb(self, path="database.pickle"):
 
-        f = open(path, 'wb')
-
+        print("fetching trending papers based on yesterday's tweets ...")
         papers = self.fetch_papers()
         num = len(papers)
 
-        pickle.dump(papers, f)
-        print(f"fetched trending {num} papers based on yesterday's tweets")
-        f.close()
+        save_pickle(papers, path)
+        print(f"||DONE|| Succesfully fetched {num} papers into database.")
 
-def load_data(path="database.pickle"):
-    
+def save_pickle(data, path):
+    with open(path, 'wb') as f:
+        pickle.dump(data, f)
+
+def load_pickle(path="database.pickle"):
     with open(path, 'rb') as f:
-        papers = pickle.load(f)
-
-    return papers
+        data = pickle.load(f)
+    return data
 
 def open_link(link):
     print(f"opening {link} in your default browser")
