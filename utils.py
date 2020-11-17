@@ -1,4 +1,4 @@
-# @author: Vasudev Gupta
+# __author__ = "Vasudev Gupta"
 
 import bs4
 import requests
