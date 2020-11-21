@@ -32,12 +32,13 @@ class Fetcher(object):
 
     def dumb(self, path="database.pickle"):
 
-        print("fetching trending papers based on yesterday's tweets ...")
+        print("fetching trending papers based on yesterday's tweets ...", end=" ")
         papers = self.fetch_papers()
         num = len(papers)
 
         save_pickle(papers, path)
-        print(f"||DONE|| Succesfully fetched {num} papers into database.")
+        print("||DONE||")
+        print(f"Succesfully fetched {num} papers into database.")
 
 class Query(object):
 

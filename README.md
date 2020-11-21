@@ -13,3 +13,6 @@ source entrypoint.sh
 paperhunt -h
 ```
 
+You can also checkout this [**colab notebook**](https://colab.research.google.com/github/VasudevGupta7/paperhunt/blob/master/paperhunt.ipynb) if you want to make your life more easier.
+
+### Feel free to use it
