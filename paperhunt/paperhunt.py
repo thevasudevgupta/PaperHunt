@@ -2,13 +2,12 @@ __author__ = "Vasudev Gupta"
 
 import os
 import argparse
-from utils import *
+from paperhunt.utils import *
 
 import warnings
 warnings.filterwarnings("ignore")
 
-if __name__ == '__main__':
-
+def main():
     parser = argparse.ArgumentParser("Control what you read from command line")
     parser.add_argument('-f', '--fetch', action="store_true", help="fetches yesterday's trending papers based on tweets")
     parser.add_argument('-o', '--open_link', action='store_true', help="open link of best matching paper based on your query")
@@ -43,3 +42,7 @@ if __name__ == '__main__':
                     open_link(bc['link'])
             except:
                 print("Nothing is there in best content")
+
+
+if __name__ == '__main__':
+    main()
