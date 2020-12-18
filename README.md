@@ -2,7 +2,7 @@
     <img src="assets/paperhunt.png">
 </p>
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VasudevGupta7/paperhunt/blob/dev/paperhunt.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VasudevGupta7/paperhunt/blob/master/paperhunt.ipynb)
 ![](https://img.shields.io/github/license/vasudevgupta7/paperhunt)
 ![](https://img.shields.io/github/forks/vasudevgupta7/paperhunt?style=social)
 ![](https://img.shields.io/github/stars/vasudevgupta7/paperhunt?style=social)
