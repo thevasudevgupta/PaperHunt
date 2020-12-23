@@ -2,39 +2,50 @@ __author__ = "Vasudev Gupta"
 
 import os
 import argparse
-from paperhunt.utils import *
 
 import warnings
 warnings.filterwarnings("ignore")
 
+from paperhunt.utils import open_link, load_pickle, save_pickle, makedirs
+from paperhunt.search_engine import SearchEngine
+
 def main():
-    parser = argparse.ArgumentParser("Control what you read from command line")
-    parser.add_argument('-f', '--fetch', action="store_true", help="fetches yesterday's trending papers based on tweets")
+    parser = argparse.ArgumentParser("This tool enables fetching recent papers using CLI")
+    parser.add_argument('-f', '--fetch', action="store_true", help="whether to fetch papers in database")
     parser.add_argument('-o', '--open_link', action='store_true', help="open link of best matching paper based on your query")
     parser.add_argument('-q', '--query', type=str, help="get papers based on your interest by specifying your type")
-    parser.add_argument('--k', type=int, default=1, help="how many best papers to get")
+    parser.add_argument('-n', '--num_papers',type=int, default=1, help="specify # of papers you want to read")
+    parser.add_argument("--category", type=str, default="top_tweets_based", help="choose something out of top_tweets_based, emnlp2020")
     args = parser.parse_args()
 
+    if args.category == "emnlp2020":
+        from paperhunt.sites.emnlp import Fetcher
+    elif args.category == "top_tweets_based":
+        from paperhunt.sites.arxiv_sanity import Fetcher
+    else:
+        raise ValueError("specified category is not valid")
+
     m = None
+    makedirs("database")
 
     if args.fetch:
         try:
             fetcher = Fetcher()
-            fetcher.dumb()
+            fetcher.dump()
         except:
-            m = "server of arxiv-sanity is down"
+            m = "website server is down"
             print(m)
 
     if not m:
 
-        if "database.pickle" not in os.listdir():
-            raise ValueError("Couldn't load database || FIRSTLY fetch database in current directory")
+        if f"{args.category}.pickle" not in os.listdir("database"):
+            raise ValueError(f"Couldn't load database || FIRSTLY fetch {args.category} database in current directory")
 
         if args.query:
             print("loading database of papers")
-            content = load_pickle()
-            query = Query()
-            best_content = query.return_best_info(args.query, content, args.k)
+            content = load_pickle(os.path.join("database", f"{args.category}.pickle"))
+            engine = SearchEngine()
+            best_content = engine.return_best_info(args.query, content, args.num_papers)
 
         if args.open_link:
             try:

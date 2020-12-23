@@ -1,7 +1,7 @@
 import setuptools
 import os
 
-__version__ = "0.1"
+__version__ = "0.1.1"
 
 with open("README.md", "r", encoding="utf-8") as file:
     long_description = file.read()
@@ -21,7 +21,7 @@ setuptools.setup(
     url="https://github.com/VasudevGupta7/paperhunt",
     packages=setuptools.find_packages(),
     install_requires=install_requires,
-    entry_points={"console_scripts": ["paperhunt=paperhunt.paperhunt:main"]},
+    entry_points={"console_scripts": ["hunt=paperhunt.paperhunt:main"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
