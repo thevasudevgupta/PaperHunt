@@ -11,10 +11,7 @@ class SpacySearchEngine(object):
     def __init__(self, content):
         
         self.content = content
-        try:
-            self.nlp = spacy.load('en_core_web_md')
-        except:
-            print("Run `source entrypoint.sh` first")
+        self.nlp = spacy.load('en_core_web_md')
 
         print("Initiating the search engine")
 
@@ -53,7 +50,7 @@ class BM25SearchEngine(object):
 
     def return_best_info(self, q, n=2):
         tokenized_query = q.lower().split()
-        papers = self.bm25.get_top_n(tokenized_query, self.content, n=n)
+        papers = self.bm25.get_top_n(tokenized_query, [doc["title"] for doc in self.content], n=n)
         print("======= MATCHING PAPERS ARE =======")
         for p in papers: print(p)
         print("===================================")
