@@ -3,8 +3,9 @@
 import bs4
 import requests
 from tqdm import tqdm
+import os
 
-from utils import save_pickle
+from paperhunt.utils import save_pickle
 
 class Fetcher(object):
     

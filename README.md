@@ -12,10 +12,10 @@ Research in deep learning is progressing very rapidly. Its very hard to decide w
 ## Setting Up
 
 ```python
-pip install git+https://github.com/VasudevGupta7/paperhunt.git@master
+pip install git+https://github.com/vasudevgupta7/paperhunt.git@master
 
 # ready to use paper hunt
-paperhunt -h
+hunt -h
 ```
 
 **If you find this tool useful, star this repositary to increase its reach**

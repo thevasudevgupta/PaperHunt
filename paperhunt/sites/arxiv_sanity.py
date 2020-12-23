@@ -4,6 +4,7 @@ import bs4
 import requests
 import ast
 import re
+import os
 
 class Fetcher(object):
     
