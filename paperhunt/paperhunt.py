@@ -7,7 +7,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from paperhunt.utils import open_link, load_pickle, save_pickle, makedirs
-from paperhunt.search_engine import SearchEngine
+from paperhunt.search_engine import SpacySearchEngine, BM25SearchEngine
 
 def main():
     parser = argparse.ArgumentParser("This tool enables fetching recent papers using CLI")
@@ -44,15 +44,15 @@ def main():
         if args.query:
             print("loading database of papers")
             content = load_pickle(os.path.join("database", f"{args.category}.pickle"))
-            engine = SearchEngine()
-            best_content = engine.return_best_info(args.query, content, args.num_papers)
+            engine = BM25SearchEngine(content)
+            best_content = engine.return_best_info(args.query, args.num_papers)
 
-        if args.open_link:
-            try:
-                for bc in best_content:
-                    open_link(bc['link'])
-            except:
-                print("Nothing is there in best content")
+        # if args.open_link:
+        #     try:
+        #         for bc in best_content:
+        #             open_link(bc['link'])
+        #     except:
+        #         print("Nothing is there in best content")
 
 
 if __name__ == '__main__':

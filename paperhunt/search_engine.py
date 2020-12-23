@@ -1,14 +1,16 @@
 # __author__ = "Vasudev Gupta"
 
+from rank_bm25 import BM25Okapi
 import spacy
 import pandas as pd
 from tqdm import tqdm
 
 
-class SearchEngine(object):
+class SpacySearchEngine(object):
 
-    def __init__(self):
+    def __init__(self, content):
         
+        self.content = content
         try:
             self.nlp = spacy.load('en_core_web_md')
         except:
@@ -16,13 +18,13 @@ class SearchEngine(object):
 
         print("Initiating the search engine")
 
-    def get_scores(self, q, content):
+    def _get_scores(self, q):
 
         scores = []
         titles = []
         q = self.nlp(q)
 
-        bar = tqdm(enumerate(content), desc="matching similarity .. ", leave=True, total=len(content))
+        bar = tqdm(enumerate(self.content), desc="matching similarity .. ", leave=True, total=len(self.content))
         for i, d in bar:
             titles.append((d["title"], i))
             paper = self.nlp(d["title"])
@@ -30,11 +32,28 @@ class SearchEngine(object):
             scores.append(score)
         return pd.Series(data=scores, index=titles)
 
-    def return_best_info(self, q, content, k=2):
-        papers = self.get_scores(q, content)
-        papers = papers.nlargest(n=k)
+    def return_best_info(self, q, n=2):
+        papers = self._get_scores(q)
+        papers = papers.nlargest(n=n)
         indices = [i for _,i in papers.index]
         print("======= MATCHING PAPERS ARE =======")
-        _ = [print(p) for p,_ in papers.index]
+        for p in papers: print(p)
         print("===================================")
-        return [content[i] for i in indices]
+        return [self.content[i] for i in indices]
+
+class BM25SearchEngine(object):
+
+    def __init__(self, content):
+
+        self.content = content
+        tokenized_content = [doc["abstract"].lower().split() for doc in content]
+        self.bm25 = BM25Okapi(tokenized_content)
+
+        print("Initiating the search engine")
+
+    def return_best_info(self, q, n=2):
+        tokenized_query = q.lower().split()
+        papers = self.bm25.get_top_n(tokenized_query, self.content, n=n)
+        print("======= MATCHING PAPERS ARE =======")
+        for p in papers: print(p)
+        print("===================================")
